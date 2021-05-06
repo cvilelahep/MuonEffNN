@@ -9,7 +9,8 @@ class muonEffDataset(data.Dataset):
             self.df = pd.read_hdf(self.store, datasetName)
 
       def __getitem__(self, index):
-            return self.df.iloc[index, [self.df.columns.get_loc(col) for col in ['LepMomX', 'LepMomY', 'LepMomZ', 'vtx_x', 'vtx_y', 'vtx_z']]], self.df.iloc[index, [self.df.columns.get_loc(col) for col in ['muon_contained', 'muon_tracker']]]
+            return self.df.iloc[index, [self.df.columns.get_loc(col) for col in ['LepMomX', 'LepMomY', 'LepMomZ', 'vtx_x', 'vtx_y', 'vtx_z']]], self.df.iloc[index, [self.df.columns.get_loc(col) for col in ['new_contained', 'new_tracker']]]
+
       
       def __len__(self):
             return len(self.df)
