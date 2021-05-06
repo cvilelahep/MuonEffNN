@@ -10,6 +10,7 @@ import uproot
 
 import math
 
+
 CAF_FHC_fName = "/storage/shared/cvilela/CAF/mcc11_v4/ND_FHC_FV_*.root"
 CAF_RHC_fName = "/storage/shared/cvilela/CAF/mcc11_v4/ND_RHC_FV_*.root"
 
@@ -44,7 +45,9 @@ for f in CAF_files :
                'muon_tracker', 
                'isCC',
                'LepPDG',
-               'Ev']
+               'Ev',
+               'muon_endpoint']
+
     try :
         print(f)
         fUprootIn = uproot.open(f)
@@ -91,6 +94,9 @@ for f in CAF_files :
                                               'vtx_x' : np.float64,
                                               'vtx_y' : np.float64,
                                               'vtx_z' : np.float64,
+                                              'muon_endpoint_x' : np.float64,
+                                              'muon_endpoint_y' : np.float64,
+                                              'muon_endpoint_z' : np.float64,
                                               'muon_contained' : np.int32,
                                               'muon_tracker' : np.int32,
                                               'isCC' : np.int32,
@@ -103,9 +109,17 @@ for f in CAF_files :
 
         extend_dict = {}
         for var in varList :
+          if var == 'muon_endpoint':
+            pass
+          else:
             extend_dict[var] = dIn[var].values
+            
         extend_dict['nnEffContained'] = predictions[:,0]
         extend_dict['nnEffTracker'] = predictions[:,1]
         extend_dict['nnEffNotAcc'] = predictions[:,2]
-        
+
+        extend_dict['muon_endpoint_x'] = dIn['muon_endpoint[0]']
+        extend_dict['muon_endpoint_y'] = dIn['muon_endpoint[1]']
+        extend_dict['muon_endpoint_z'] = dIn['muon_endpoint[2]'] 
+
         f["muonEfficiency"].extend(extend_dict)

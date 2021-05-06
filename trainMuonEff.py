@@ -28,13 +28,14 @@ def main() :
     test_loader =  torch.utils.data.DataLoader(muonEffDataset.muonEffDataset('/storage/shared/cvilela/MuonEff/MuonEff.h5', 'MuonEff_test'), batch_size=200, shuffle=True, num_workers=4, collate_fn =  muonEffDataset.collate)
     
     # Training loop
-    TRAIN_EPOCH = 0.01
+    TRAIN_EPOCH = 50
+
     blob.net.train()
     epoch = 0.
     iteration = 0.
 
-    fTrainLossTracker = open(outDir+"/"+'trainLoss.log', 'w', 2048)
-    fValidationLossTracker = open(outDir+"/"+'validationLoss.log', 'w', -1)
+    fTrainLossTracker = open(outDir+'/'+'trainLoss.log', 'w', 2048)
+    fValidationLossTracker = open(outDir+'/'+'validationLoss.log', 'w', -1)
 
     while epoch < TRAIN_EPOCH :
         print('Epoch', epoch, int(epoch+0.5), 'Starting @',time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
@@ -71,6 +72,7 @@ def main() :
                 break
     fTrainLossTracker.close()
     fValidationLossTracker.close()
-    torch.save(blob.net.state_dict(), outDir+"/"+"muonEff.nn")
+    torch.save(blob.net.state_dict(), outDir+'/'+'muonEff.nn')
+
 if __name__ == '__main__' :
     main()
